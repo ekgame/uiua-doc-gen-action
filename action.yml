@@ -1,0 +1,25 @@
+name: Generate Uiua Documentation
+description: Generates documentation website for Uiua libraries using uiua-doc-gen
+
+inputs:
+  name:
+    description: 'The project name'
+    required: false
+    default: ${{ github.event.repository.name }}
+
+runs:
+  using: composite
+  steps:
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        profile: minimal
+        
+    - name: Install uiua-doc-gen
+      shell: bash
+      run: cargo install uiua-doc-gen
+      
+    - name: Generate Documentation
+      shell: bash
+      run: uiua-doc-gen --name ${{ inputs.name }}
